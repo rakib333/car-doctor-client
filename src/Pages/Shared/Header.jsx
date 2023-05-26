@@ -8,8 +8,11 @@ const Header = () => {
     const { user, LogOut } = useContext(AuthContext);
     const handleLogOut = () => {
         LogOut()
-            .then(() => { })
+            .then(() => {
+                localStorage.removeItem('car-doctor-token')
+            })
             .then(error => console.log(error))
+
     }
     const navItems = <>
         <li><Link to='/'>Home</Link></li>

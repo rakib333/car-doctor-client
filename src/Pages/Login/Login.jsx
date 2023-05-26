@@ -1,11 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import loginImg from '../../assets/images/login/login.svg';
 import { useContext } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
+import SocialLogin from './SocialLogin';
 
 const Login = () => {
 
     const { signIn } = useContext(AuthContext);
+
+    const location = useLocation();
+    let from = location.state?.from?.pathname || '/';
+    const navigate = useNavigate();
 
     const handleLogin = event => {
         event.preventDefault();
@@ -13,12 +18,11 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
 
-        console.log(email, password)
-
         signIn(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                console.log(user)
+                navigate(from, { replace: true })
             })
             .catch(error => console.log(error));
 
@@ -38,13 +42,13 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="text" placeholder="email" className="input input-bordered" />
+                                <input type="text" name='email' placeholder="email" className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="text" placeholder="password" className="input input-bordered" />
+                                <input type="password" name='password' placeholder="password" className="input input-bordered" />
                                 <label className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
@@ -54,6 +58,7 @@ const Login = () => {
                             </div>
                         </form>
                         <h3>Do not have an account? <Link to='/signup' className='text-red-800'>Sign Up</Link></h3>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>
