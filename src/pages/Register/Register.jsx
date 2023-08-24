@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import img from '../../assets/images/login/login.svg'
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import { toast } from "react-toastify";
 
 
 const Register = () => {
 
-    const { createUser } = useContext(AuthContext)
+    const { createUser, updateUser } = useContext(AuthContext)
+
+    const navigate = useNavigate();
 
     const handleSignUp = event => {
         event.preventDefault();
@@ -15,14 +18,26 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value;
-        console.log(name, email, password, confirmPassword)
+        if (password !== confirmPassword) {
+            return toast.error('Password did not match')
+        }
         createUser(email, password)
             .then(result => {
                 const createdUser = result.user;
                 console.log(createdUser)
+                navigate('/login')
+                toast.success('User created successfully')
+                updateUser(createdUser, name)
+                    .then(() => {
+                        console.log('photo updated')
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             })
             .catch(error => {
                 console.log(error)
+                toast.error(error.message)
             })
 
     }

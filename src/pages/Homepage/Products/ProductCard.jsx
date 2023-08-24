@@ -1,5 +1,6 @@
 
 
+
 const ProductCard = ({ product }) => {
 
     const { title, price, img } = product;
@@ -12,7 +13,9 @@ const ProductCard = ({ product }) => {
                 <h2 className="card-title text-3xl">{title}</h2>
                 <p className="text-2xl text-red-500">${price}</p>
                 <div className="card-actions">
+
                     <button className="btn btn-secondary">Buy Now</button>
+
                 </div>
             </div>
         </div>

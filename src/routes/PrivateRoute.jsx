@@ -1,11 +1,14 @@
-import { Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { AuthContext } from '../providers/AuthProvider';
 
 const PrivateRoute = ({ children }) => {
-    const user = 'rakib';
-    const loading = 'true';
+    const { user, loading } = useContext(AuthContext);
+    const location = useLocation();
+
 
     if (loading) {
-        return <div>Loading....</div>
+        return <progress className="progress progress-secondary w-full" value="100" max="100"></progress>
     }
 
     if (user) {
